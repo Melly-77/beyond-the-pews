@@ -1,0 +1,25 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "images/uploads"
+public_folder: "/images/uploads"
+
+collections:
+  - name: "episodes"
+    label: "Podcast Folgen"
+    files:
+      - file: "episodes.json"
+        label: "Alle Folgen"
+        name: "episodes"
+        fields:
+          - label: "Folgen"
+            name: "episodes"
+            widget: "list"
+            label_singular: "Folge"
+            summary: "Folge {{fields.num}} — {{fields.title}}"
+            fields:
+              - { label: "Nummer (z.B. 05)", name: "num", widget: "string" }
+              - { label: "Titel", name: "title", widget: "string" }
+              - { label: "Beschreibung", name: "desc", widget: "text" }
+              - { label: "Dauer (z.B. 40 Min.)", name: "duration", widget: "string" }
