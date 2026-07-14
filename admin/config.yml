@@ -6,11 +6,12 @@ media_folder: "images/uploads"
 public_folder: "/images/uploads"
 
 collections:
+
   - name: "episodes"
-    label: "Podcast Folgen"
+    label: "🎙 Podcast Folgen"
     files:
       - file: "episodes.json"
-        label: "Alle Folgen"
+        label: "Alle Folgen verwalten"
         name: "episodes"
         fields:
           - label: "Folgen"
@@ -23,3 +24,85 @@ collections:
               - { label: "Titel", name: "title", widget: "string" }
               - { label: "Beschreibung", name: "desc", widget: "text" }
               - { label: "Dauer (z.B. 40 Min.)", name: "duration", widget: "string" }
+
+  - name: "settings"
+    label: "✏️ Website Inhalte"
+    files:
+      - file: "site-settings.json"
+        label: "Alle Texte bearbeiten"
+        name: "site_settings"
+        fields:
+          - label: "🏠 Startseite (Hero)"
+            name: "hero"
+            widget: "object"
+            fields:
+              - { label: "Label (klein, oben)", name: "label", widget: "string" }
+              - { label: "Slogan — Zeile 1", name: "slogan_line1", widget: "string" }
+              - { label: "Slogan — Zeile 2", name: "slogan_line2", widget: "string" }
+              - { label: "Tagline (unten klein)", name: "tagline", widget: "string" }
+              - { label: "Button 1 Text", name: "btn_primary", widget: "string" }
+              - { label: "Button 2 Text", name: "btn_secondary", widget: "string" }
+          - label: "👤 Über mich"
+            name: "about"
+            widget: "object"
+            fields:
+              - { label: "Label (klein)", name: "label", widget: "string" }
+              - { label: "Überschrift", name: "heading", widget: "string" }
+              - { label: "Erster Absatz", name: "text1", widget: "text" }
+              - { label: "Zweiter Absatz", name: "text2", widget: "text" }
+              - { label: "Foto Beschriftung", name: "photo_caption", widget: "string" }
+              - { label: "Foto Zitat", name: "photo_quote", widget: "string" }
+              - { label: "Button Text", name: "btn", widget: "string" }
+          - label: "🔱 Drei Säulen"
+            name: "pillars"
+            widget: "object"
+            fields:
+              - { label: "Label (klein)", name: "label", widget: "string" }
+              - { label: "Überschrift", name: "heading", widget: "string" }
+              - { label: "Säule 1 — Römische Zahl", name: "one_roman", widget: "string" }
+              - { label: "Säule 1 — Titel (EN)", name: "one_en", widget: "string" }
+              - { label: "Säule 1 — Titel (DE)", name: "one_de", widget: "string" }
+              - { label: "Säule 1 — Text", name: "one_text", widget: "text" }
+              - { label: "Säule 2 — Römische Zahl", name: "two_roman", widget: "string" }
+              - { label: "Säule 2 — Titel (EN)", name: "two_en", widget: "string" }
+              - { label: "Säule 2 — Titel (DE)", name: "two_de", widget: "string" }
+              - { label: "Säule 2 — Text", name: "two_text", widget: "text" }
+              - { label: "Säule 3 — Römische Zahl", name: "three_roman", widget: "string" }
+              - { label: "Säule 3 — Titel (EN)", name: "three_en", widget: "string" }
+              - { label: "Säule 3 — Titel (DE)", name: "three_de", widget: "string" }
+              - { label: "Säule 3 — Text", name: "three_text", widget: "text" }
+          - label: "💬 Großes Zitat"
+            name: "quote"
+            widget: "object"
+            fields:
+              - { label: "Zitat Text", name: "text", widget: "string" }
+              - { label: "Zuschreibung", name: "attribution", widget: "string" }
+          - label: "🎧 Podcast Bereich"
+            name: "podcast"
+            widget: "object"
+            fields:
+              - { label: "Label (klein)", name: "label", widget: "string" }
+              - { label: "Überschrift Zeile 1", name: "heading", widget: "string" }
+              - { label: "Überschrift Zeile 2", name: "subheading", widget: "string" }
+          - label: "📬 Newsletter / Community"
+            name: "community"
+            widget: "object"
+            fields:
+              - { label: "Label (klein)", name: "label", widget: "string" }
+              - { label: "Überschrift Zeile 1", name: "heading1", widget: "string" }
+              - { label: "Überschrift Zeile 2", name: "heading2", widget: "string" }
+              - { label: "Beschreibungstext", name: "text", widget: "text" }
+              - { label: "Button Text", name: "btn", widget: "string" }
+              - { label: "Hinweis unter Button", name: "note", widget: "string" }
+              - { label: "Erfolg — Überschrift", name: "success_heading", widget: "string" }
+              - { label: "Erfolg — Untertext", name: "success_sub", widget: "string" }
+          - label: "🔻 Footer"
+            name: "footer"
+            widget: "object"
+            fields:
+              - { label: "Tagline (unter Logo)", name: "tagline", widget: "string" }
+              - { label: "Beschreibungstext", name: "description", widget: "string" }
+              - { label: "E-Mail Adresse", name: "email", widget: "string" }
+              - { label: "Website URL", name: "website", widget: "string" }
+              - { label: "Copyright Text", name: "copyright", widget: "string" }
+              - { label: "Rechte Text (rechts unten)", name: "rights", widget: "string" }
