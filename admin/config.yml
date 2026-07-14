@@ -1,0 +1,72 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "images/uploads"
+public_folder: "/images/uploads"
+
+collections:
+  - name: "episodes"
+    label: "Podcast-Episoden"
+    files:
+      - name: "episodes"
+        label: "Alle Episoden"
+        file: "episodes.json"
+        fields:
+          - label: "Episoden"
+            name: "episodes"
+            widget: "list"
+            summary: "{{fields.number}} — {{fields.title}}"
+            fields:
+              - { label: "Nummer", name: "number", widget: "number", value_type: "int" }
+              - { label: "Titel", name: "title", widget: "string" }
+              - label: "Säule"
+                name: "pillar"
+                widget: "select"
+                options: ["Identität", "Berufung", "Exzellenz"]
+              - { label: "Datum", name: "date", widget: "date" }
+              - { label: "Gast (leer lassen bei Solo-Folge)", name: "guest", widget: "string", required: false }
+              - { label: "Beschreibung", name: "description", widget: "text" }
+              - { label: "Audio-Link", name: "audioLink", widget: "string", required: false }
+
+  - name: "guests"
+    label: "Gäste"
+    files:
+      - name: "guests"
+        label: "Alle Gäste"
+        file: "guests.json"
+        fields:
+          - label: "Gäste"
+            name: "guests"
+            widget: "list"
+            summary: "{{fields.name}}"
+            fields:
+              - { label: "Name", name: "name", widget: "string" }
+              - { label: "Rolle", name: "role", widget: "string", required: false }
+              - { label: "Episode", name: "episode", widget: "string", required: false }
+              - { label: "Foto", name: "image", widget: "image", required: false }
+              - { label: "Bio", name: "bio", widget: "text", required: false }
+              - { label: "Buchtitel", name: "book", widget: "string", required: false }
+              - { label: "Buch-Link", name: "bookLink", widget: "string", required: false }
+              - { label: "Webseite", name: "website", widget: "string", required: false }
+              - { label: "Instagram", name: "instagram", widget: "string", required: false }
+              - { label: "Podcast-Link", name: "podcast", widget: "string", required: false }
+
+  - name: "shop"
+    label: "Shop-Produkte"
+    files:
+      - name: "shop"
+        label: "Alle Produkte"
+        file: "shop.json"
+        fields:
+          - label: "Produkte"
+            name: "products"
+            widget: "list"
+            summary: "{{fields.name}}"
+            fields:
+              - { label: "Name", name: "name", widget: "string" }
+              - { label: "Kategorie", name: "category", widget: "string" }
+              - { label: "Preis (z.B. 24,90 €)", name: "price", widget: "string" }
+              - { label: "Bild", name: "image", widget: "image" }
+              - { label: "Beschreibung", name: "desc", widget: "text" }
+              - { label: "Link (leer lassen für 'Demnächst')", name: "link", widget: "string", required: false }

@@ -70,16 +70,16 @@
   </div>
 </footer>
 
-<script src="shop-data.js"></script>
 <script src="main.js"></script>
 <script>
+  let shopData = [];
   const grid = document.getElementById('shopGrid');
   const empty = document.getElementById('emptyState');
   const filterBar = document.getElementById('filterBar');
-  const categories = ['Alle', ...new Set(shopData.map(p => p.category))];
   let active = 'Alle';
 
   function renderFilters() {
+    const categories = ['Alle', ...new Set(shopData.map(p => p.category))];
     filterBar.innerHTML = categories.map(c =>
       `<span class="chip ${c === active ? 'active' : ''}" data-cat="${c}">${c}</span>`
     ).join('');
@@ -113,8 +113,14 @@
     empty.style.display = list.length ? 'none' : 'block';
   }
 
-  renderFilters();
-  renderGrid();
+  fetch('shop.json')
+    .then(r => r.json())
+    .then(data => {
+      shopData = data.products || [];
+      renderFilters();
+      renderGrid();
+    })
+    .catch(() => { grid.innerHTML = ''; empty.style.display = 'block'; });
 </script>
 </body>
 </html>

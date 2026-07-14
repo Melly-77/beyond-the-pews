@@ -1,0 +1,16 @@
+{
+  "guests": [
+    {
+      "name": "Beispiel Gast",
+      "role": "Autor & Speaker",
+      "episode": "Folge 1",
+      "image": "https://placehold.co/400x400/5C1A2C/FAF5EF?text=Foto",
+      "bio": "Kurze Beschreibung, wer dieser Gast ist und worüber im Gespräch geredet wurde.",
+      "book": "Titel des Buches",
+      "bookLink": "https://example.com",
+      "website": "https://example.com",
+      "instagram": "https://instagram.com/beispiel",
+      "podcast": ""
+    }
+  ]
+}

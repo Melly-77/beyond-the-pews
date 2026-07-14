@@ -72,9 +72,9 @@
   </div>
 </footer>
 
-<script src="guests-data.js"></script>
 <script src="main.js"></script>
 <script>
+  let guestsData = [];
   const grid = document.getElementById('guestGrid');
   const empty = document.getElementById('emptyState');
   const searchInput = document.getElementById('guestSearch');
@@ -104,7 +104,13 @@
     empty.style.display = list.length ? 'none' : 'block';
   }
 
-  render(guestsData);
+  fetch('guests.json')
+    .then(r => r.json())
+    .then(data => {
+      guestsData = data.guests || [];
+      render(guestsData);
+    })
+    .catch(() => { grid.innerHTML = ''; empty.style.display = 'block'; });
 
   searchInput.addEventListener('input', () => {
     const q = searchInput.value.trim().toLowerCase();

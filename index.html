@@ -6,6 +6,16 @@
 <title>Beyond the Pews — Every Day Is an Altar</title>
 <meta name="description" content="Beyond the Pews: Glaube, der dein ganzes Leben prägt. Podcast, Community, Bibel und mehr — für Identität, Berufung und Exzellenz im Alltag.">
 <link rel="stylesheet" href="styles.css">
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+<script>
+  if (window.netlifyIdentity) {
+    window.netlifyIdentity.on("init", user => {
+      if (!user) {
+        window.netlifyIdentity.on("login", () => { document.location.href = "/admin/"; });
+      }
+    });
+  }
+</script>
 </head>
 <body>
 
