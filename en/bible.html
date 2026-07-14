@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bible — Beyond the Pews</title>
+<meta name="description" content="Luther Bible 1912 and King James Version, side by side. Browse, jump, search.">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  .bible-toolbar{
+    display:flex; gap:14px; flex-wrap:wrap; align-items:flex-end; justify-content:center;
+    background:#fff; border:1px solid var(--line); border-radius:3px; padding:24px;
+    box-shadow:var(--shadow); margin-bottom:36px;
+  }
+  .bible-toolbar .field{ min-width:170px; }
+  .bible-toolbar .field.grow{ flex:1; min-width:220px; }
+  .verse-search{ max-width:240px; }
+  .chapter-nav{ display:flex; justify-content:space-between; align-items:center; margin-bottom:26px; gap:14px; flex-wrap:wrap; }
+  .chapter-nav .ref-label{ font-family:var(--serif); font-size:1.4rem; color:var(--wine); text-align:center; flex:1; }
+  .reader-grid{ display:grid; grid-template-columns:1fr 1fr; gap:0; background:#fff; border:1px solid var(--line); border-radius:3px; overflow:hidden; box-shadow:var(--shadow); }
+  .reader-col{ padding:36px 34px; }
+  .reader-col + .reader-col{ border-left:1px solid var(--line); }
+  .reader-col h4{ font-size:0.72rem; letter-spacing:0.14em; text-transform:uppercase; color:var(--rose); margin-bottom:20px; }
+  .verse{ margin-bottom:12px; font-size:1.02rem; }
+  .verse .vnum{ font-family:var(--serif); font-weight:600; color:var(--rose); margin-right:8px; font-size:0.85rem; vertical-align:super; }
+  .verse.highlight{ background:var(--cream-dim); border-left:3px solid var(--wine); padding:8px 10px; margin-left:-13px; border-radius:2px; }
+  .loading, .load-error{ text-align:center; padding:60px 20px; opacity:0.7; }
+  @media (max-width:820px){ .reader-grid{ grid-template-columns:1fr; } .reader-col + .reader-col{ border-left:none; border-top:1px solid var(--line); } }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a href="index.html" class="logo">Beyond<span>ThePews</span></a>
+    <button class="nav-toggle" aria-label="Open menu">☰</button>
+    <nav class="main-nav">
+      <a href="index.html">Home</a>
+      <a href="podcast.html">Podcast</a>
+      <a href="bible.html" class="active">Bible</a>
+      <a href="community.html">Community</a>
+      <a href="guests.html">Guests</a>
+      <a href="shop.html">Shop</a>
+      <a href="../bible.html" style="opacity:0.6;">DE</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero" style="padding-bottom:20px;">
+  <div class="container">
+    <p class="eyebrow">Bible</p>
+    <h1 style="font-size:clamp(2.2rem,5vw,3.4rem);">Luther Bible 1912 & King James, side by side.</h1>
+    <p class="lede">Choose a book and chapter, jump straight to a verse, or search within the current chapter.</p>
+  </div>
+</section>
+
+<section style="padding-top:0;">
+  <div class="container">
+
+    <div class="bible-toolbar">
+      <div class="field">
+        <label for="bookSelect">Book</label>
+        <select id="bookSelect"></select>
+      </div>
+      <div class="field">
+        <label for="chapterSelect">Chapter</label>
+        <select id="chapterSelect"></select>
+      </div>
+      <div class="field grow">
+        <label for="refJump">Jump directly (e.g. "John 3:16")</label>
+        <input type="text" id="refJump" placeholder="Book Chapter:Verse">
+      </div>
+      <div class="field">
+        <label>&nbsp;</label>
+        <button class="btn btn-primary" id="jumpBtn" style="width:100%;justify-content:center;">Go</button>
+      </div>
+    </div>
+
+    <div class="chapter-nav">
+      <button class="btn btn-outline" id="prevChapter">← Previous</button>
+      <div class="ref-label" id="refLabel">—</div>
+      <button class="btn btn-outline" id="nextChapter">Next →</button>
+    </div>
+
+    <div class="field" style="max-width:320px;margin:0 auto 30px;">
+      <label for="verseSearch">Search verses in this chapter</label>
+      <input type="search" id="verseSearch" class="verse-search" placeholder="Keyword…">
+    </div>
+
+    <div class="reader-grid" id="readerGrid">
+      <div class="reader-col">
+        <h4>Luther Bible 1912 (German)</h4>
+        <div id="deText" class="loading">Loading…</div>
+      </div>
+      <div class="reader-col">
+        <h4>King James Version (English)</h4>
+        <div id="enText" class="loading">Loading…</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <a href="index.html" class="logo">Beyond<span>ThePews</span></a>
+        <p style="margin-top:14px;max-width:320px;">A German-language media and community project for faith that shapes all of everyday life.</p>
+      </div>
+      <div>
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="podcast.html">Podcast</a></li>
+          <li><a href="bible.html">Bible</a></li>
+          <li><a href="community.html">Community</a></li>
+          <li><a href="guests.html">Guests</a></li>
+          <li><a href="shop.html">Shop</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="mailto:live@beyondthepews.de">live@beyondthepews.de</a></li>
+          <li>Dortmund, Germany</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">© 2026 Beyond the Pews. All rights reserved. Bible text: Luther Bible 1912 & KJV (public domain) via wldeh/bible-api.</div>
+  </div>
+</footer>
+
+<script src="../main.js"></script>
+<script src="../bible-books.js"></script>
+<script>
+  const DE_VERSION = 'de-luther1912';
+  const EN_VERSION = 'en-kjv';
+  const API = (v, book, ch) => `https://cdn.jsdelivr.net/gh/wldeh/bible-api/bibles/${v}/books/${book}/chapters/${ch}.json`;
+
+  const bookSelect = document.getElementById('bookSelect');
+  const chapterSelect = document.getElementById('chapterSelect');
+  const refLabel = document.getElementById('refLabel');
+  const deText = document.getElementById('deText');
+  const enText = document.getElementById('enText');
+  const verseSearch = document.getElementById('verseSearch');
+
+  let currentBookIndex = 39; // Matthew as a welcoming start
+  let currentChapter = 1;
+  let deVerses = [];
+  let enVerses = [];
+
+  function populateBooks(){
+    bookSelect.innerHTML = bibleBooks.map((b,i) => `<option value="${i}">${b.en}</option>`).join('');
+    bookSelect.value = currentBookIndex;
+  }
+
+  function populateChapters(){
+    const count = bibleBooks[currentBookIndex].chapters;
+    let opts = '';
+    for(let i=1;i<=count;i++) opts += `<option value="${i}">${i}</option>`;
+    chapterSelect.innerHTML = opts;
+    chapterSelect.value = currentChapter;
+  }
+
+  function renderVerses(container, verses, lang){
+    if(!verses.length){
+      container.innerHTML = `<p class="load-error">This chapter could not be loaded.</p>`;
+      return;
+    }
+    const q = verseSearch.value.trim().toLowerCase();
+    container.innerHTML = verses.map(v => {
+      const match = q && v.text.toLowerCase().includes(q);
+      return `<div class="verse ${match ? 'highlight' : ''}" data-verse="${v.verse}"><span class="vnum">${v.verse}</span>${v.text}</div>`;
+    }).join('');
+  }
+
+  function dedupeVerses(rawData){
+    const seen = new Map();
+    rawData.forEach(v => {
+      const num = parseInt(v.verse, 10);
+      if(!seen.has(num)) seen.set(num, v.text.trim());
+    });
+    return Array.from(seen.entries()).map(([verse, text]) => ({verse, text}));
+  }
+
+  async function loadChapter(){
+    const book = bibleBooks[currentBookIndex];
+    refLabel.textContent = `${book.en} ${currentChapter}`;
+    deText.innerHTML = '<p class="loading">Loading…</p>';
+    enText.innerHTML = '<p class="loading">Loading…</p>';
+
+    try {
+      const [deRes, enRes] = await Promise.all([
+        fetch(API(DE_VERSION, book.id, currentChapter)),
+        fetch(API(EN_VERSION, book.id, currentChapter))
+      ]);
+      const deData = deRes.ok ? await deRes.json() : null;
+      const enData = enRes.ok ? await enRes.json() : null;
+
+      deVerses = (deData && deData.data) ? dedupeVerses(deData.data) : [];
+      enVerses = (enData && enData.data) ? dedupeVerses(enData.data) : [];
+
+      renderVerses(deText, deVerses, 'de');
+      renderVerses(enText, enVerses, 'en');
+    } catch (err) {
+      deText.innerHTML = '<p class="load-error">This chapter could not be loaded. Please try again.</p>';
+      enText.innerHTML = '<p class="load-error">This chapter could not be loaded. Please try again.</p>';
+    }
+  }
+
+  bookSelect.addEventListener('change', () => {
+    currentBookIndex = parseInt(bookSelect.value, 10);
+    currentChapter = 1;
+    populateChapters();
+    loadChapter();
+  });
+
+  chapterSelect.addEventListener('change', () => {
+    currentChapter = parseInt(chapterSelect.value, 10);
+    loadChapter();
+  });
+
+  document.getElementById('prevChapter').addEventListener('click', () => {
+    if(currentChapter > 1){ currentChapter--; }
+    else if(currentBookIndex > 0){ currentBookIndex--; currentChapter = bibleBooks[currentBookIndex].chapters; }
+    populateBooks(); populateChapters(); loadChapter();
+  });
+
+  document.getElementById('nextChapter').addEventListener('click', () => {
+    const book = bibleBooks[currentBookIndex];
+    if(currentChapter < book.chapters){ currentChapter++; }
+    else if(currentBookIndex < bibleBooks.length - 1){ currentBookIndex++; currentChapter = 1; }
+    populateBooks(); populateChapters(); loadChapter();
+  });
+
+  verseSearch.addEventListener('input', () => {
+    renderVerses(deText, deVerses, 'de');
+    renderVerses(enText, enVerses, 'en');
+  });
+
+  document.getElementById('jumpBtn').addEventListener('click', jumpToReference);
+  document.getElementById('refJump').addEventListener('keydown', e => { if(e.key === 'Enter') jumpToReference(); });
+
+  function jumpToReference(){
+    const raw = document.getElementById('refJump').value.trim();
+    if(!raw) return;
+    const match = raw.match(/^(.*?)\s+(\d+)(?:[:.](\d+))?$/);
+    if(!match){ alert('Please use the format "Book Chapter:Verse", e.g. "John 3:16".'); return; }
+    const [, bookQuery, ch, verse] = match;
+    const q = bookQuery.trim().toLowerCase();
+    const idx = bibleBooks.findIndex(b => b.en.toLowerCase() === q || b.en.toLowerCase().includes(q) || b.de.toLowerCase() === q);
+    if(idx === -1){ alert('Book not found. Please check the spelling.'); return; }
+    currentBookIndex = idx;
+    currentChapter = parseInt(ch, 10);
+    populateBooks(); populateChapters(); loadChapter().then(() => {
+      if(verse){
+        setTimeout(() => {
+          const el = document.querySelector(`#deText .verse[data-verse="${verse}"]`);
+          if(el){ el.classList.add('highlight'); el.scrollIntoView({behavior:'smooth', block:'center'}); }
+        }, 300);
+      }
+    });
+  }
+
+  populateBooks();
+  populateChapters();
+  loadChapter();
+</script>
+</body>
+</html>

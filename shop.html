@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shop — Beyond the Pews</title>
+<meta name="description" content="Bibeln, Bücher und christliche Begleiter für deinen Alltag — kuratiert von Beyond the Pews.">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a href="index.html" class="logo">Beyond<span>ThePews</span></a>
+    <button class="nav-toggle" aria-label="Menü öffnen">☰</button>
+    <nav class="main-nav">
+      <a href="index.html">Start</a>
+      <a href="podcast.html">Podcast</a>
+      <a href="bible.html">Bibel</a>
+      <a href="community.html">Community</a>
+      <a href="guests.html">Gäste</a>
+      <a href="shop.html" class="active">Shop</a>
+      <a href="en/shop.html" style="opacity:0.6;">EN</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero" style="padding-bottom:20px;">
+  <div class="container">
+    <p class="eyebrow">Shop</p>
+    <h1 style="font-size:clamp(2.2rem,5vw,3.4rem);">Bibeln & Begleiter für deinen Alltag.</h1>
+    <p class="lede">Ausgewählte Bibeln, Bücher und Produkte, die zu Beyond the Pews passen.</p>
+  </div>
+</section>
+
+<section style="padding-top:20px;">
+  <div class="container">
+    <div class="toolbar" id="filterBar"></div>
+    <div class="card-grid" id="shopGrid"></div>
+    <p class="tac" id="emptyState" style="display:none;opacity:0.6;margin-top:30px;">Keine Produkte in dieser Kategorie.</p>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <a href="index.html" class="logo">Beyond<span>ThePews</span></a>
+        <p style="margin-top:14px;max-width:320px;">Ein deutschsprachiges Medien- und Community-Projekt für Glauben, der den ganzen Alltag prägt.</p>
+      </div>
+      <div>
+        <h4>Entdecken</h4>
+        <ul>
+          <li><a href="podcast.html">Podcast</a></li>
+          <li><a href="bible.html">Bibel</a></li>
+          <li><a href="community.html">Community</a></li>
+          <li><a href="guests.html">Gäste</a></li>
+          <li><a href="shop.html">Shop</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Kontakt</h4>
+        <ul>
+          <li><a href="mailto:live@beyondthepews.de">live@beyondthepews.de</a></li>
+          <li>Dortmund, Deutschland</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">© 2026 Beyond the Pews. Alle Rechte vorbehalten.</div>
+  </div>
+</footer>
+
+<script src="shop-data.js"></script>
+<script src="main.js"></script>
+<script>
+  const grid = document.getElementById('shopGrid');
+  const empty = document.getElementById('emptyState');
+  const filterBar = document.getElementById('filterBar');
+  const categories = ['Alle', ...new Set(shopData.map(p => p.category))];
+  let active = 'Alle';
+
+  function renderFilters() {
+    filterBar.innerHTML = categories.map(c =>
+      `<span class="chip ${c === active ? 'active' : ''}" data-cat="${c}">${c}</span>`
+    ).join('');
+    filterBar.querySelectorAll('.chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        active = chip.dataset.cat;
+        renderFilters();
+        renderGrid();
+      });
+    });
+  }
+
+  function renderGrid() {
+    const list = active === 'Alle' ? shopData : shopData.filter(p => p.category === active);
+    grid.innerHTML = list.map(p => `
+      <div class="card">
+        <img src="${p.image}" alt="${p.name}" loading="lazy">
+        <div class="card-body">
+          <span class="card-tag">${p.category}</span>
+          <h3>${p.name}</h3>
+          <p class="card-desc">${p.desc}</p>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-top:8px;">
+            <span class="price">${p.price}</span>
+            ${p.link
+              ? `<a href="${p.link}" target="_blank" rel="noopener" class="btn btn-outline" style="padding:8px 18px;font-size:0.78rem;">Ansehen</a>`
+              : `<span style="font-size:0.75rem;opacity:0.55;">Demnächst</span>`}
+          </div>
+        </div>
+      </div>
+    `).join('');
+    empty.style.display = list.length ? 'none' : 'block';
+  }
+
+  renderFilters();
+  renderGrid();
+</script>
+</body>
+</html>

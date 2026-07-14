@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guests — Beyond the Pews</title>
+<meta name="description" content="Every Beyond the Pews podcast guest: books, contacts, and backgrounds in one place.">
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a href="index.html" class="logo">Beyond<span>ThePews</span></a>
+    <button class="nav-toggle" aria-label="Open menu">☰</button>
+    <nav class="main-nav">
+      <a href="index.html">Home</a>
+      <a href="podcast.html">Podcast</a>
+      <a href="bible.html">Bible</a>
+      <a href="community.html">Community</a>
+      <a href="guests.html" class="active">Guests</a>
+      <a href="shop.html">Shop</a>
+      <a href="../guests.html" style="opacity:0.6;">DE</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero" style="padding-bottom:20px;">
+  <div class="container">
+    <p class="eyebrow">Guests</p>
+    <h1 style="font-size:clamp(2.2rem,5vw,3.4rem);">Voices of the podcast.</h1>
+    <p class="lede">Books, contacts, and backgrounds on everyone who's been a guest on Beyond the Pews.</p>
+  </div>
+</section>
+
+<section style="padding-top:20px;">
+  <div class="container">
+    <div class="toolbar">
+      <input type="search" id="guestSearch" placeholder="Search for a guest…">
+    </div>
+    <div class="card-grid" id="guestGrid"></div>
+    <p class="tac" id="emptyState" style="display:none;opacity:0.6;margin-top:30px;">No guest found.</p>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <a href="index.html" class="logo">Beyond<span>ThePews</span></a>
+        <p style="margin-top:14px;max-width:320px;">A German-language media and community project for faith that shapes all of everyday life.</p>
+      </div>
+      <div>
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="podcast.html">Podcast</a></li>
+          <li><a href="bible.html">Bible</a></li>
+          <li><a href="community.html">Community</a></li>
+          <li><a href="guests.html">Guests</a></li>
+          <li><a href="shop.html">Shop</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="mailto:live@beyondthepews.de">live@beyondthepews.de</a></li>
+          <li>Dortmund, Germany</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">© 2026 Beyond the Pews. All rights reserved.</div>
+  </div>
+</footer>
+
+<script src="../guests-data.js"></script>
+<script src="../main.js"></script>
+<script>
+  const grid = document.getElementById('guestGrid');
+  const empty = document.getElementById('emptyState');
+  const searchInput = document.getElementById('guestSearch');
+
+  function linkRow(guest) {
+    const links = [];
+    if (guest.bookLink) links.push(`<a href="${guest.bookLink}" target="_blank" rel="noopener">View book</a>`);
+    if (guest.website) links.push(`<a href="${guest.website}" target="_blank" rel="noopener">Website</a>`);
+    if (guest.instagram) links.push(`<a href="${guest.instagram}" target="_blank" rel="noopener">Instagram</a>`);
+    if (guest.podcast) links.push(`<a href="${guest.podcast}" target="_blank" rel="noopener">Podcast</a>`);
+    return links.length ? `<div class="card-links">${links.join('')}</div>` : '';
+  }
+
+  function render(list) {
+    grid.innerHTML = list.map(g => `
+      <div class="card">
+        <img src="${g.image || 'https://placehold.co/400x300/F1E8DD/5C1A2C?text=' + encodeURIComponent(g.name)}" alt="${g.name}" loading="lazy">
+        <div class="card-body">
+          <span class="card-tag">${g.episode || ''}</span>
+          <h3>${g.name}</h3>
+          <p class="card-desc">${g.role ? `<strong>${g.role}</strong><br>` : ''}${g.bio || ''}</p>
+          ${g.book ? `<p style="font-size:0.85rem;opacity:0.75;margin:0;">📖 ${g.book}</p>` : ''}
+          ${linkRow(g)}
+        </div>
+      </div>
+    `).join('');
+    empty.style.display = list.length ? 'none' : 'block';
+  }
+
+  render(guestsData);
+
+  searchInput.addEventListener('input', () => {
+    const q = searchInput.value.trim().toLowerCase();
+    const filtered = guestsData.filter(g =>
+      g.name.toLowerCase().includes(q) ||
+      (g.role || '').toLowerCase().includes(q) ||
+      (g.bio || '').toLowerCase().includes(q)
+    );
+    render(filtered);
+  });
+</script>
+</body>
+</html>

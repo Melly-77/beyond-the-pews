@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Podcast — Beyond the Pews</title>
+<meta name="description" content="Alle Episoden von Beyond the Pews: Identität, Berufung, Exzellenz.">
+<link rel="stylesheet" href="styles.css">
+<style>
+  .ep-card{ display:flex; gap:24px; align-items:flex-start; padding:26px 28px; }
+  .ep-num{ font-family:var(--serif); font-size:2.2rem; font-weight:600; color:var(--rose-light); min-width:56px; }
+  .ep-meta{ display:flex; gap:12px; align-items:center; margin-bottom:6px; flex-wrap:wrap; }
+  .ep-date{ font-size:0.78rem; opacity:0.6; }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a href="index.html" class="logo">Beyond<span>ThePews</span></a>
+    <button class="nav-toggle" aria-label="Menü öffnen">☰</button>
+    <nav class="main-nav">
+      <a href="index.html">Start</a>
+      <a href="podcast.html" class="active">Podcast</a>
+      <a href="bible.html">Bibel</a>
+      <a href="community.html">Community</a>
+      <a href="guests.html">Gäste</a>
+      <a href="shop.html">Shop</a>
+      <a href="en/podcast.html" style="opacity:0.6;">EN</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero" style="padding-bottom:20px;">
+  <div class="container">
+    <p class="eyebrow">Podcast</p>
+    <h1 style="font-size:clamp(2.2rem,5vw,3.4rem);">Alle Episoden.</h1>
+    <p class="lede">Identität, Berufung, Exzellenz — jede Folge ein Impuls für deinen Alltag mit Gott.</p>
+  </div>
+</section>
+
+<section style="padding-top:20px;">
+  <div class="container">
+    <div class="toolbar" id="filterBar"></div>
+    <div id="episodeList" style="display:flex;flex-direction:column;gap:22px;max-width:820px;margin:0 auto;"></div>
+    <p class="tac" id="emptyState" style="display:none;opacity:0.6;margin-top:30px;">Noch keine Episoden in dieser Kategorie.</p>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <a href="index.html" class="logo">Beyond<span>ThePews</span></a>
+        <p style="margin-top:14px;max-width:320px;">Ein deutschsprachiges Medien- und Community-Projekt für Glauben, der den ganzen Alltag prägt.</p>
+      </div>
+      <div>
+        <h4>Entdecken</h4>
+        <ul>
+          <li><a href="podcast.html">Podcast</a></li>
+          <li><a href="bible.html">Bibel</a></li>
+          <li><a href="community.html">Community</a></li>
+          <li><a href="guests.html">Gäste</a></li>
+          <li><a href="shop.html">Shop</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Kontakt</h4>
+        <ul>
+          <li><a href="mailto:live@beyondthepews.de">live@beyondthepews.de</a></li>
+          <li>Dortmund, Deutschland</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">© 2026 Beyond the Pews. Alle Rechte vorbehalten.</div>
+  </div>
+</footer>
+
+<script src="episodes-data.js"></script>
+<script src="guests-data.js"></script>
+<script src="main.js"></script>
+<script>
+  const list = document.getElementById('episodeList');
+  const empty = document.getElementById('emptyState');
+  const filterBar = document.getElementById('filterBar');
+  const pillars = ['Alle', 'Identität', 'Berufung', 'Exzellenz'];
+  let active = 'Alle';
+
+  function renderFilters(){
+    filterBar.innerHTML = pillars.map(p =>
+      `<span class="chip ${p === active ? 'active' : ''}" data-p="${p}">${p}</span>`
+    ).join('');
+    filterBar.querySelectorAll('.chip').forEach(chip => {
+      chip.addEventListener('click', () => { active = chip.dataset.p; renderFilters(); renderList(); });
+    });
+  }
+
+  function formatDate(iso){
+    if(!iso) return '';
+    const d = new Date(iso);
+    return d.toLocaleDateString('de-DE', { day: '2-digit', month: 'long', year: 'numeric' });
+  }
+
+  function renderList(){
+    const sorted = [...episodesData].sort((a,b) => b.number - a.number);
+    const filtered = active === 'Alle' ? sorted : sorted.filter(e => e.pillar === active);
+    list.innerHTML = filtered.map(ep => `
+      <div class="card ep-card">
+        <div class="ep-num">${String(ep.number).padStart(2,'0')}</div>
+        <div class="card-body" style="padding:0;">
+          <div class="ep-meta">
+            <span class="card-tag">${ep.pillar}</span>
+            ${ep.date ? `<span class="ep-date">${formatDate(ep.date)}</span>` : ''}
+          </div>
+          <h3 style="margin-bottom:4px;">${ep.title}</h3>
+          ${ep.guest ? `<p style="font-size:0.85rem;color:var(--rose);margin:0 0 8px;">Mit ${ep.guest}</p>` : ''}
+          <p class="card-desc">${ep.description || ''}</p>
+          ${ep.audioLink ? `<div class="card-links"><a href="${ep.audioLink}" target="_blank" rel="noopener">Anhören →</a></div>` : ''}
+        </div>
+      </div>
+    `).join('');
+    empty.style.display = filtered.length ? 'none' : 'block';
+  }
+
+  renderFilters();
+  renderList();
+</script>
+</body>
+</html>
