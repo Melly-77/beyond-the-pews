@@ -76,10 +76,9 @@
   </div>
 </footer>
 
-<script src="../episodes-data.js"></script>
-<script src="../guests-data.js"></script>
 <script src="../main.js"></script>
 <script>
+  let episodesData = [];
   const list = document.getElementById('episodeList');
   const empty = document.getElementById('emptyState');
   const filterBar = document.getElementById('filterBar');
@@ -126,7 +125,10 @@
   }
 
   renderFilters();
-  renderList();
+  fetch('../episodes.json')
+    .then(r => r.json())
+    .then(data => { episodesData = data.episodes || []; renderList(); })
+    .catch(() => { list.innerHTML = ''; empty.style.display = 'block'; });
 </script>
 </body>
 </html>
